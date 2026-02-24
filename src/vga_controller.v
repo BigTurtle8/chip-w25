@@ -7,7 +7,7 @@
 
 module vga_controller (
     input  wire       clk,
-    input  wire       rst,
+    input  wire       rst,          // reset high
     input  wire [8:0] point_0_x,
     input  wire [7:0] point_0_y,
     input  wire       point_0_valid,

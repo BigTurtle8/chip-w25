@@ -18,7 +18,7 @@ module tt_um_lorenz_attractor_vga (
 
     vga_controller vga_control (
         .clk(clk),
-        .rst(rst_n),
+        .rst(~rst_n),
         .point_0_x(9'd128),
         .point_0_y(8'd128),
         .point_0_valid(1'b1),
