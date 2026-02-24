@@ -16,11 +16,14 @@ module tt_um_lorenz_attractor_vga (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+    reg [8:0] point_0_x;
+    reg [7:0] point_0_y;
+
     vga_controller vga_control (
         .clk(clk),
         .rst(~rst_n),
-        .point_0_x(9'd128),
-        .point_0_y(8'd128),
+        .point_0_x(point_0_x),
+        .point_0_y(point_0_y),
         .point_0_valid(1'b1),
         .r({ uo_out[0], uo_out[4] }),
         .g({ uo_out[1], uo_out[5] }),
@@ -29,7 +32,21 @@ module tt_um_lorenz_attractor_vga (
         .vsync(uo_out[3])
     );
 
+    always @(posedge clk) begin
+        if (~rst_n) begin
+            point_0_x <= 9'h0;
+            point_0_y <= 8'h0;
+        end else begin
+            point_0_x <= point_0_x + 1;
+            point_0_y <= point_0_y + 1;
+        end
+    end
+
     // List all unused inputs to prevent warnings
     wire _unused = &{ui_in, uio_in, ena, 1'b0};
+
+    // Pull unused outputs to prevent warnings
+    assign uio_out = 8'h0;
+    assign uio_oe = 8'h0;
 
 endmodule
