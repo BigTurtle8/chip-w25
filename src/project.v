@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Your Name
+ * Copyright (c) 2025 Marcus Alagar, Derek Maeshiro, Chloe Zhong
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -16,12 +16,20 @@ module tt_um_lorenz_attractor_vga (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+    vga_controller vga_control (
+        .clk(clk),
+        .rst(rst_n),
+        .point_0_x(9'd128),
+        .point_0_y(8'd128),
+        .point_0_valid(1'b1),
+        .r({ uo_out[0], uo_out[4] }),
+        .g({ uo_out[1], uo_out[5] }),
+        .b({ uo_out[2], uo_out[6] }),
+        .hsync(uo_out[7]),
+        .vsync(uo_out[3])
+    );
 
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
+    // List all unused inputs to prevent warnings
+    wire _unused = &{ui_in, uio_in, ena, 1'b0};
 
 endmodule
